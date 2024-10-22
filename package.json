@@ -1,0 +1,17 @@
+{
+  "name": "spend-tracker",
+  "scripts": {
+    "install-client": "npm install --prefix client",
+    "server": "tsx watch server/index.ts",
+    "client": "npm run dev --prefix client"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.1",
+    "date-fns": "^4.1.0",
+    "hono": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
+  }
+}
