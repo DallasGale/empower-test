@@ -2,3 +2,62 @@
   font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
 }
+
+body {
+  background-color: #e8e8e8;
+}
+.display-1 {
+  font-size: 0.7em;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.display-2 {
+  font-size: 1.3em;
+  font-weight: semi-bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+:root {
+  --space-2: 0.25em;
+  --space-3: 0.5em;
+  --space-4: 1em;
+  --space-5: 2em;
+  --space-6: 4em;
+  --space-7: 8em;
+  --space-8: 16em;
+
+  --color-gray-300: #e0e0e0;
+  --color-very-light-gray: #fcfcfc;
+}
+
+main {
+  padding: var(--space-6);
+  padding-top: var(--space-5);
+}
+
+.ul {
+  padding-left: 0;
+}
+
+.li {
+  list-style-type: none;
+}
+.panel {
+  padding: var(--space-4);
+  /* border: 1px solid var(--color-gray-300); */
+  border-radius: var(--space-3);
+  background-color: var(--color-very-light-gray);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
+}
+
+.pending {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: var(--space-2);
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  border-radius: var(--space-3);
+}

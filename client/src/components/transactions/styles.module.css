@@ -1,0 +1,71 @@
+.row {
+  padding: var(--space-2);
+  display: flex;
+  gap: var(--space-2);
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gray-300);
+  position: relative;
+  cursor: pointer;
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    height: 100%;
+    width: 4px;
+    opacity: 0;
+    background-color: black;
+    transition: all 0.15s ease-in-out;
+  }
+
+  &:hover {
+    &::before {
+      transition: all 0.2s ease-in-out;
+      opacity: 1;
+    }
+  }
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2);
+}
+
+.logo,
+.icon {
+  width: var(--space-5);
+  height: var(--space-5);
+  border-radius: 50%;
+}
+
+.icon {
+  background-color: var(--color-gray-300);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  svg {
+    margin-left: 6px;
+  }
+}
+
+.merchant {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  margin-bottom: var(--space-3);
+}
+
+.meta {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-3);
+}

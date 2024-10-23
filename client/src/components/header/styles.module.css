@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.lockup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-5);
+}
