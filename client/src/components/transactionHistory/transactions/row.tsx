@@ -1,4 +1,4 @@
-import { TransactionTypes } from "../../types";
+import { TransactionTypes } from "@types";
 import styles from "./styles.module.css";
 import { IconCashRegister } from "@tabler/icons-react";
 

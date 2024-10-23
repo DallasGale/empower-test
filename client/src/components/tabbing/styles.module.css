@@ -1,6 +1,7 @@
 .list {
   position: relative;
   margin-bottom: var(--mantine-spacing-md);
+  gap: var(--space-3);
 }
 
 .indicator {
@@ -20,16 +21,17 @@
   font-weight: 500;
   transition: color 100ms ease;
   color: var(--mantine-color-gray-7);
+  border-radius: var(--space-3);
+  color: var(--mantine-color-black);
+  background: white;
+  border: 1px solid black;
+  color: black;
+  transition: var(--transition);
 
   &[data-active] {
     color: var(--mantine-color-black);
-  }
-
-  @mixin dark {
-    color: var(--mantine-color-dark-1);
-
-    &[data-active] {
-      color: var(--mantine-color-white);
-    }
+    background: black;
+    color: white;
+    transition: var(--transition);
   }
 }

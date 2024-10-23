@@ -36,7 +36,6 @@ const Actions = observer(() => {
       ) : (
         <Select
           onChange={(_value, options) => {
-            console.log({ options });
             return trackerStore.setSelectedAccount({
               account_id: options.value,
               name: options.label,
@@ -47,13 +46,24 @@ const Actions = observer(() => {
           value={trackerStore.selectedAccount?.account_id}
           label="Account"
           data={formatSelectData(accounts)}
+          classNames={{
+            label: "display-1",
+            option: "display-1",
+            input: "display-1",
+          }}
         />
       )}
       <Select
+        disabled
         defaultValue={trackerStore.timeframe}
         label="Timeframe"
         placeholder="Choose your timeframe"
         data={["weekly", "daily"]}
+        classNames={{
+          label: "display-1",
+          option: "display-1",
+          input: "display-1",
+        }}
       />
     </div>
   );

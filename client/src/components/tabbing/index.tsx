@@ -20,11 +20,19 @@ const Tabbing = ({ categories, transactionHistory }: TabbingProps) => {
     <div>
       <Tabs variant="none" value={value} onChange={setValue}>
         <Tabs.List ref={setRootRef} className={styles.list}>
-          <Tabs.Tab value="1" ref={setControlRef("1")} className={styles.tab}>
-            Categories
+          <Tabs.Tab
+            classNames={{ tab: styles.tab }}
+            value="1"
+            ref={setControlRef("1")}
+          >
+            <span className="display-3">Categories</span>
           </Tabs.Tab>
-          <Tabs.Tab value="2" ref={setControlRef("2")} className={styles.tab}>
-            Transaction History
+          <Tabs.Tab
+            classNames={{ tab: styles.tab }}
+            value="2"
+            ref={setControlRef("2")}
+          >
+            <span className="display-3">Transaction History</span>
           </Tabs.Tab>
 
           <FloatingIndicator

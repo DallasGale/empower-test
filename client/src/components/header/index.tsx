@@ -6,9 +6,9 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.lockup}>
         <img src={Logo} alt="Empower" />
-        <p className="display-2"> Spend Tracker v0.1</p>
+        <p className="display-4"> Spend Tracker v0.1</p>
       </div>
-      <p className="display-1"> Welcome Dallas</p>
+      <p className="display-4"> Welcome Tim</p>
     </header>
   );
 };

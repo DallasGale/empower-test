@@ -7,10 +7,12 @@
 }
 
 .spent {
-  display: flex;
+  display: grid;
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  gap: var(--space-4);
+  grid-template-columns: 80% 1fr 30px;
 }
 
 .modalRow {
@@ -20,4 +22,24 @@
   width: 100%;
   padding: var(--space-4);
   border-top: 1px solid var(--color-gray-300);
+}
+
+.defaultTrack {
+  background-color: rgb(83, 209, 83);
+}
+
+.alertTrack {
+  background-color: rgb(243, 95, 95);
+}
+
+.thumb {
+  opacity: 0;
+}
+
+.header {
+  display: grid;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  grid-template-columns: 80% 1fr;
 }

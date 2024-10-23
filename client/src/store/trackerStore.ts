@@ -36,7 +36,10 @@ class TrackerStore {
     );
   }
   setCategories(value: CategoryTypes[]) {
-    this.categories = value.map((category) => ({ ...category, spendLimit: 0 }));
+    this.categories = value.map((category) => ({
+      ...category,
+      spendLimit: 120,
+    }));
   }
 
   setMutatingCategory(id: string, name: string, spendLimit: number) {

@@ -1,0 +1,7 @@
+.header {
+  display: grid;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  grid-template-columns: 80% 1fr;
+}

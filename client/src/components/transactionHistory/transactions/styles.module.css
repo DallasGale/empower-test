@@ -19,12 +19,12 @@
     width: 4px;
     opacity: 0;
     background-color: black;
-    transition: all 0.15s ease-in-out;
+    transition: var(--transition);
   }
 
   &:hover {
     &::before {
-      transition: all 0.2s ease-in-out;
+      transition: var(--transition);
       opacity: 1;
     }
   }
@@ -67,5 +67,6 @@
 .meta {
   display: flex;
   flex-direction: row;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
