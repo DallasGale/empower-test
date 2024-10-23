@@ -1,8 +1,22 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { serve } from "@hono/node-server";
 import { accounts, categories, transactions } from "./mockData";
 
 const app = new Hono();
+
+// Add CORS middleware
+app.use(
+  "/*",
+  cors({
+    origin: "http://localhost:5173", // Replace with your frontend URL
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    credentials: true,
+  })
+);
 
 app
   .get("/accounts", (c) => {
