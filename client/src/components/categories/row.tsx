@@ -1,8 +1,9 @@
 import { ActionIcon, Slider } from "@mantine/core";
 import { TransactionTypes } from "../../types";
 import styles from "./styles.module.css";
-import { IconPencil } from "@tabler/icons-react";
+import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { convertSpendIntoPercentage } from "../../utils/convertSpendIntoPercentage";
+import { trackerStore } from "../../store/trackerStore";
 
 interface CategoryRowProps {
   transactions: TransactionTypes[];
@@ -44,6 +45,10 @@ const CategoryRow = ({
     } else {
       return styles.alertTrack;
     }
+  };
+
+  const handleDelete = ({ id }: { id: string }) => {
+    trackerStore.deleteCategory(id);
   };
   return (
     <li className="li">
@@ -92,12 +97,20 @@ const CategoryRow = ({
           <div>
             <p className="display-1">${amountSpent.toFixed(2)}</p>
           </div>
-          <ActionIcon
-            className="action-button"
-            onClick={() => handleOpen({ id, name, spendLimit })}
-          >
-            <IconPencil size={18} color="grey" />
-          </ActionIcon>
+          <div>
+            <ActionIcon
+              className="action-button"
+              onClick={() => handleOpen({ id, name, spendLimit })}
+            >
+              <IconPencil size={18} color="grey" />
+            </ActionIcon>
+            <ActionIcon
+              className="action-button"
+              onClick={() => handleDelete({ id })}
+            >
+              <IconTrash size={18} color="red" />
+            </ActionIcon>
+          </div>
         </div>
       </div>
     </li>

@@ -51,12 +51,6 @@ const App = observer(() => {
 
   return (
     <MantineProvider>
-      <LoadingOverlay
-        visible={loading}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 10 }}
-      />
-
       <main>
         <Header />
         <div className="container">

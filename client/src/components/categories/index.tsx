@@ -81,15 +81,18 @@ const Categories = observer(() => {
               <IconPlus size={10} />
             </ActionIcon>
           </div>
-          <div>
-            <p className="display-1">Money Spent</p>
+          <div style={{ display: "flex", alignItems: "flex-end " }}>
+            <p className="display-1">
+              Money
+              <br />
+              Spent
+            </p>
           </div>
         </div>
 
         <ul className="ul panel">
           {trackerStore.categories.map(({ id, name, spendLimit }) => {
             // Filter the categories from the transactions
-
             return (
               <CategoryRow
                 key={id}
@@ -111,7 +114,6 @@ const Categories = observer(() => {
         title="Add New Category"
         classNames={{ title: "display-3" }}
       >
-        {/* Modal content */}
         <div className={styles.modalRow}>
           <p className="display-3">Name</p>{" "}
           <p className="display-3" style={{ color: "grey" }}>
@@ -141,7 +143,6 @@ const Categories = observer(() => {
         title="Edit Tracker"
         classNames={{ title: "display-3" }}
       >
-        {/* Modal content */}
         <div className={styles.modalRow}>
           <p className="display-3">Name</p>{" "}
           <p className="display-3" style={{ color: "grey" }}>

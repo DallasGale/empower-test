@@ -53,6 +53,10 @@ class TrackerStore {
   addCategory(category: CategoryTypes) {
     this.categories.push({ ...category });
   }
+
+  deleteCategory(id: string) {
+    this.categories = this.categories.filter((category) => category.id !== id);
+  }
 }
 
 export const trackerStore = new TrackerStore();
