@@ -1,37 +1,36 @@
+// External dependencies
 import { useEffect, useState } from "react";
-import "@mantine/core/styles.css";
-import Header from "@components/header/";
-import { MantineProvider } from "@mantine/core";
-import Actions from "@components/actions";
-import { trackerStore } from "@store/trackerStore";
+import { MantineProvider, LoadingOverlay } from "@mantine/core";
 import { observer } from "mobx-react-lite";
+import "@mantine/core/styles.css";
+
+// Store
+import { trackerStore } from "@store/trackerStore";
+
+// Components
+import Header from "@components/header/";
+import Actions from "@components/actions";
 import Tabbing from "@components/tabbing";
 import Categories from "./components/categories";
 import TransactionHistory from "./components/transactionHistory";
-import { LoadingOverlay } from "@mantine/core";
 
-const endpoint = "http://localhost:3000";
+const API_ENDPOINT = "http://localhost:3000";
 
 const App = observer(() => {
-  // 1. Get some data
-
-  // Define the state
-
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ message: "" });
+  const [error, setError] = useState("");
 
-  // The data was not fetching anything so had to investigate the server re: cors.
-  // I have updated the server with the hono cors.
   const fetchAllData = async () => {
     try {
       setLoading(true);
-      // Using Promise.all to fetch data concurrently
+      const endpoints = [
+        `${API_ENDPOINT}/accounts`,
+        `${API_ENDPOINT}/transactions`,
+        `${API_ENDPOINT}/categories`,
+      ];
+
       const [accountData, transactionsData, categoriesData] = await Promise.all(
-        [
-          fetch(`${endpoint}/accounts`).then((res) => res.json()),
-          fetch(`${endpoint}/transactions`).then((res) => res.json()),
-          fetch(`${endpoint}/categories`).then((res) => res.json()),
-        ]
+        endpoints.map((endpoint) => fetch(endpoint).then((res) => res.json()))
       );
 
       trackerStore.setAccounts(accountData);
@@ -44,7 +43,6 @@ const App = observer(() => {
     }
   };
 
-  // 2. Call the function
   useEffect(() => {
     fetchAllData();
   }, []);
@@ -55,14 +53,13 @@ const App = observer(() => {
         <Header />
         <div className="container">
           <Actions />
+          {loading && <LoadingOverlay visible />}
+          {error && <div className="error">{error}</div>}
           {trackerStore.selectedAccount ? (
-            <>
-              {/* Based on the selected account display the appropriate transactions */}
-              <Tabbing
-                categories={<Categories />}
-                transactionHistory={<TransactionHistory />}
-              />
-            </>
+            <Tabbing
+              categories={<Categories />}
+              transactionHistory={<TransactionHistory />}
+            />
           ) : (
             <p className="display-3">No account selected</p>
           )}
