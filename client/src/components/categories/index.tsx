@@ -1,39 +1,44 @@
-import { ActionIcon, Button, Modal, NumberInput } from "@mantine/core";
-import { IconEdit, IconPencil } from "@tabler/icons-react";
-import EmojiPicker from "emoji-picker-react";
+import {
+  ActionIcon,
+  Button,
+  Modal,
+  NumberInput,
+  TextInput,
+} from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 import { observer } from "mobx-react-lite";
 import { useDisclosure } from "@mantine/hooks";
 import { trackerStore } from "../../store/trackerStore";
 import styles from "./styles.module.css";
-import { Slider } from "@mantine/core";
 import { CategoryTypes } from "../../types";
-import { useEffect, useState } from "react";
-import { toJS, transaction } from "mobx";
+import { useState } from "react";
 import TransactionMeta from "../transactionHistory/transactions/meta";
 import { filterTransactions } from "../../utils/filterTransactions";
+import CategoryRow from "./row";
 
 const Categories = observer(() => {
-  // const transactions = trackerStore.transactions;
-  const [opened, { open, close }] = useDisclosure(false);
+  const [openedEditModal, { open: openEditModal, close: closeEditModal }] =
+    useDisclosure(false);
+  const [
+    openedAddCategoryModal,
+    { open: openAddCategoryModal, close: closeAddCategoryModal },
+  ] = useDisclosure(false);
+
+  const [newName, setNewName] = useState("");
+  const [newLimit, setNewLimit] = useState<string | number>(0);
+
   const [mutatingCategory, setMutatingCategory] = useState({
     id: "",
     name: "",
     spendLimit: 0,
   });
 
-  const [spendLimit, setSpendLimit] = useState(0);
+  const [spendLimit, setSpendLimit] = useState<number | string>(0);
 
   const handleOpen = ({ id, name, spendLimit }: CategoryTypes) => {
-    // console.log({ id, name, spendLimit });
     setMutatingCategory({ id, name, spendLimit });
     setSpendLimit(spendLimit);
-    open();
-  };
-
-  const convertSpendIntoPercentage = (spend: number, limit: number) => {
-    if (!limit) return 0; // Prevent division by zero
-    const percentage = (spend / limit) * 100;
-    return Math.min(percentage, 100); // Cap at 100%
+    openEditModal();
   };
 
   const transactions = filterTransactions(trackerStore.transactions);
@@ -42,18 +47,40 @@ const Categories = observer(() => {
     0
   );
 
-  // useEffect(() => {
-  //   console.log(
-  //     "trackerStore.selectedAccount",
-  //     toJS(trackerStore.selectedAccount)
-  //   );
-  //   console.log("trackerStore.transactions", toJS(trackerStore.transactions));
-  // }, [trackerStore.selectedAccount]);
+  const addNewCategory = () => {
+    openAddCategoryModal();
+  };
+
+  const handleAddNewCategoryToStore = () => {
+    trackerStore.addCategory({
+      id: (trackerStore.categories.length + 2).toString(),
+      name: newName,
+      spendLimit: newLimit as number,
+    });
+    closeAddCategoryModal();
+  };
+
+  const handleEditCategory = () => {
+    closeEditModal();
+    trackerStore.setMutatingCategory(
+      mutatingCategory.id,
+      mutatingCategory.name,
+      spendLimit as number
+    );
+  };
   return (
     <>
       <section>
         <div className={styles.header}>
-          <h2 className="display-2">Categories</h2>
+          <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+            <h2 className="display-2">Categories</h2>
+            <ActionIcon
+              classNames={{ root: "primary-cta" }}
+              onClick={() => addNewCategory()}
+            >
+              <IconPlus size={10} />
+            </ActionIcon>
+          </div>
           <div>
             <p className="display-1">Money Spent</p>
           </div>
@@ -62,77 +89,59 @@ const Categories = observer(() => {
         <ul className="ul panel">
           {trackerStore.categories.map(({ id, name, spendLimit }) => {
             // Filter the categories from the transactions
-            const linkedTransactions = transactions.filter((transaction) => {
-              return transaction.category_id === id;
-            });
 
-            const amountSpent = linkedTransactions.reduce(
-              (acc, curr) => acc + curr.amount,
-              0
-            );
-
-            const percent = convertSpendIntoPercentage(amountSpent, spendLimit);
             return (
-              <li className="li" key={id}>
-                <div className={styles.categoryRow}>
-                  <div>
-                    <p className="display-1">{name}</p>
-                  </div>
-                  <div className={styles.spent}>
-                    {/* Total spent */}
-                    <div style={{ width: "100%" }}>
-                      {percent > 0 ? (
-                        <Slider
-                          classNames={{
-                            bar:
-                              percent < 99
-                                ? styles.defaultTrack
-                                : styles.alertTrack,
-                            thumb: styles.thumb,
-                          }}
-                          value={percent}
-                          style={{ pointerEvents: "none", width: "100%" }}
-                        />
-                      ) : (
-                        <p className="display-1">
-                          You haven't spent anything yet on {name} yet!
-                        </p>
-                      )}{" "}
-                      {percent === 100 && (
-                        <p className="display-1">
-                          Ooops!, you have reached your limit
-                        </p>
-                      )}
-                      <p className="display-1">
-                        Max Spend Limit: ${spendLimit}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="display-1">${amountSpent.toFixed(2)}</p>
-                    </div>
-                    <ActionIcon
-                      className="action-button"
-                      onClick={() => handleOpen({ id, name, spendLimit })}
-                    >
-                      <IconPencil size={18} color="grey" />
-                    </ActionIcon>
-                  </div>
-                </div>
-              </li>
+              <CategoryRow
+                key={id}
+                transactions={transactions}
+                id={id}
+                spendLimit={spendLimit}
+                name={name}
+                handleOpen={handleOpen}
+              />
             );
           })}
         </ul>
         <TransactionMeta totalSpent={sumAllTransactions} />
       </section>
+
       <Modal
-        opened={opened}
-        onClose={close}
+        opened={openedAddCategoryModal}
+        onClose={closeAddCategoryModal}
+        title="Add New Category"
+        classNames={{ title: "display-3" }}
+      >
+        {/* Modal content */}
+        <div className={styles.modalRow}>
+          <p className="display-3">Name</p>{" "}
+          <p className="display-3" style={{ color: "grey" }}>
+            <TextInput
+              value={newName}
+              onChange={(e) => setNewName(e.currentTarget.value)}
+            />
+          </p>
+        </div>
+        <div className={styles.modalRow}>
+          <p className="display-3">Spend Limit</p>{" "}
+          <p className="display-3">
+            <NumberInput value={newLimit} onChange={setNewLimit} />
+          </p>
+        </div>
+        <Button
+          className="primary-cta"
+          classNames={{ label: "display-3" }}
+          onClick={() => handleAddNewCategoryToStore()}
+        >
+          Save
+        </Button>
+      </Modal>
+      <Modal
+        opened={openedEditModal}
+        onClose={closeEditModal}
         title="Edit Tracker"
         classNames={{ title: "display-3" }}
       >
         {/* Modal content */}
-        {/* <EmojiPicker /> */}
         <div className={styles.modalRow}>
           <p className="display-3">Name</p>{" "}
           <p className="display-3" style={{ color: "grey" }}>
@@ -148,14 +157,7 @@ const Categories = observer(() => {
         <Button
           className="primary-cta"
           classNames={{ label: "display-3" }}
-          onClick={() => [
-            close(),
-            trackerStore.setMutatingCategory(
-              mutatingCategory.id,
-              mutatingCategory.name,
-              spendLimit
-            ),
-          ]}
+          onClick={() => handleEditCategory()}
         >
           Save
         </Button>

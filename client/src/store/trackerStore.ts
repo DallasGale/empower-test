@@ -49,6 +49,10 @@ class TrackerStore {
       category.name = name;
     }
   }
+
+  addCategory(category: CategoryTypes) {
+    this.categories.push({ ...category });
+  }
 }
 
 export const trackerStore = new TrackerStore();

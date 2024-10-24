@@ -17,7 +17,7 @@ const Tabbing = ({ categories, transactionHistory }: TabbingProps) => {
     setControlsRefs(controlsRefs);
   };
   return (
-    <div>
+    <div style={{ maxWidth: 1000 }}>
       <Tabs variant="none" value={value} onChange={setValue}>
         <Tabs.List ref={setRootRef} className={styles.list}>
           <Tabs.Tab

@@ -8,6 +8,7 @@ import { observer } from "mobx-react-lite";
 import Tabbing from "@components/tabbing";
 import Categories from "./components/categories";
 import TransactionHistory from "./components/transactionHistory";
+import { LoadingOverlay } from "@mantine/core";
 
 const endpoint = "http://localhost:3000";
 
@@ -48,11 +49,14 @@ const App = observer(() => {
     fetchAllData();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
   return (
     <MantineProvider>
+      <LoadingOverlay
+        visible={loading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 10 }}
+      />
+
       <main>
         <Header />
         <div className="container">

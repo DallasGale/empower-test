@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 1rem;
+  height: 60px;
 }
 
 .spent {
@@ -25,11 +26,17 @@
 }
 
 .defaultTrack {
-  background-color: rgb(83, 209, 83);
+  background-color: var(--color-ok);
 }
 
 .alertTrack {
-  background-color: rgb(243, 95, 95);
+  background-color: var(--color-alert);
+}
+.warningTrack {
+  background-color: var(--color-warning);
+}
+.blankTrack {
+  background-color: black;
 }
 
 .thumb {

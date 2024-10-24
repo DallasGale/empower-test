@@ -45,6 +45,9 @@ body {
 
   --color-gray-300: #e0e0e0;
   --color-very-light-gray: #fcfcfc;
+  --color-alert: rgb(243, 95, 95);
+  --color-warning: rgb(239, 198, 87);
+  --color-ok: rgb(83, 209, 83);
 
   --transition: all 0.2s ease-in-out;
 }
@@ -115,11 +118,15 @@ main {
   color: var(--mantine-color-gray-7);
   border-radius: var(--space-3);
   color: var(--mantine-color-black);
-  background: white;
+  background: transparent;
   border: 1px solid black;
   color: black;
   transition: var(--transition);
   &:hover {
     background-color: black;
   }
+}
+
+.alert {
+  color: var(--color-alert);
 }
